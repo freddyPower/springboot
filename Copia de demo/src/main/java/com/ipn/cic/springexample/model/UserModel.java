@@ -16,7 +16,7 @@ import javax.validation.constraints.Size;
 
 
 @Entity
-@Table(name="user")
+@Table(name="userss")
 public class UserModel implements Serializable {
 
 	private static final long serialVersionUID = 1L;
