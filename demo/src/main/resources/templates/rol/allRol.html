@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.com">
+<head>
+<meta charset="UTF-8" />
+
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<title>Insert title here</title>
+</head>
+<body>
+	ROLES
+	<br>
+	<table class="table table-striped" border="1" style="width: 500px;">
+		<thead >
+			<tr >
+				<th>ID</th>
+				<th>NAME</th>
+				<th>DESCRIPTION</th>
+				<th>EDITAR</th>
+				<th>ELIMINAR</th>				
+			</tr>
+		</thead>
+
+		<tbody class="table table-striped">
+			<tr th:each="rol: ${rolList}">
+				<td th:text="${rol.id}" />
+				<td th:text="${rol.name}" />
+				<td th:text="${rol.description}" />			
+				<td ><a class="btn btn-danger" th:href="@{'/rol/editForm/'+ ${rol.id}}"> <button>Editar</button> </a>  </td>
+				<td><a th:href="@{|/rol/delete/${rol.id}|}"> <button>Borrar</button> </a>  </td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>
