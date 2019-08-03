@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.com">
+<head>
+<meta charset="UTF-8" />
+
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<title>Insert title here</title>
+</head>
+<body>
+	AQUI DEBEN IR LOS USUARIOS
+	<br>
+	<table class="table table-striped" border="1" style="width: 500px;">
+		<thead >
+			<tr >
+				<th>ID</th>
+				<th>NAME</th>
+				<th>LAST NAME</th>
+				<th>SECOND LAST NAME</th>
+				<th>AGE</th>
+				<th>ROL</th>
+				<th>Editar</th>
+				<th>Borrar</th>
+			</tr>
+		</thead>
+
+		<tbody class="table table-striped">
+			<tr th:each="usr: ${usrList}">
+				<td th:text="${usr.id}" />
+				<td th:text="${usr.name}" />
+				<td th:text="${usr.lastName}" />
+				<td th:text="${usr.secondLastName}" />
+				<td th:text="${usr.age}" />
+				<td th:text="${usr.rol}" />
+				<td ><a class="btn btn-danger" th:href="@{'/user/editForm/'+ ${usr.id}}"> <button>Editar</button> </a>  </td>
+				<td><a th:href="@{|/user/delete/${usr.id}|}"> <button>Borrar</button> </a>  </td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>
