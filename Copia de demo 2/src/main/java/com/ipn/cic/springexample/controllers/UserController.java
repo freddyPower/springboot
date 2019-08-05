@@ -25,7 +25,7 @@ import com.ipn.cic.springexample.services.IUserService;
 @Controller
 @RequestMapping(path = "/user")
 public class UserController {
-	
+
 	private final Log log = LogFactory.getLog(this.getClass());
 
 	@Autowired
@@ -33,130 +33,123 @@ public class UserController {
 	private IUserService userService;
 
 	@GetMapping(path = "/all") // Peticiones tipo Get versiones con spring boot, version optimizada.
-    //@PostMapping(path = "/all") //Peticiones tipo post
+	// @PostMapping(path = "/all") //Peticiones tipo post
 	// @RequestMapping(path = "/all", method = RequestMethod.GET)
 	public ModelAndView findAll() {
 
-		ModelAndView mav =  new ModelAndView("usr/allUsers");
+		ModelAndView mav = new ModelAndView("usr/allUsers");
 		List<UserModel> lista = userService.getAll();
-		log.info( String.format("Se encontraron %d resultados", lista.size() ) );
-				mav.addObject("usrList", lista);
-				
+		log.info(String.format("Se encontraron %d resultados", lista.size()));
+		mav.addObject("usrList", lista);
+
 		return mav;
 	}
-	
-	@GetMapping(path="/newUserForm")
-	public ModelAndView getNewUserForm() {		
-		ModelAndView mav =  new ModelAndView("usr/new_user_form");	
+
+	@GetMapping(path = "/newUserForm")
+	public ModelAndView getNewUserForm() {
+		ModelAndView mav = new ModelAndView("usr/new_user_form");
 		return mav;
 	}
-	
+
 	@PostMapping(path = "/newUser")
-	public String createNew( HttpServletRequest request) {
-		
+	public String createNew(HttpServletRequest request) {
+
 		String name = request.getParameter("name");
-		String lastName =  request.getParameter("lastName");
-		String secondLastName =  request.getParameter("secondLastName");
+		String lastName = request.getParameter("lastName");
+		String secondLastName = request.getParameter("secondLastName");
 		String age = request.getParameter("age");
-		//int edad =  Integer.parseInt(age);
-		
-		UserModel usr =  new UserModel(name , lastName , secondLastName );		
+		// int edad = Integer.parseInt(age);
+
+		UserModel usr = new UserModel(name, lastName, secondLastName);
 		userService.save(usr);
-		
+
 		return "redirect:/user/all";
 	}
-	
+
 	@PostMapping(path = "/newUser2")
-	public String createNew2( 
-		
-		@RequestParam(name = "name" , required = true) String name,
-		@RequestParam(name = "lastName" ) String lastName,
-		@RequestParam(name = "secondLastName" ) String secondLastName,
-		@RequestParam(name = "age" , required=false , defaultValue= "15" ) int age ) {
-		
-		UserModel usr =  new UserModel(name , lastName , secondLastName , age);		
+	public String createNew2(
+
+			@RequestParam(name = "name", required = true) String name, @RequestParam(name = "lastName") String lastName,
+			@RequestParam(name = "secondLastName") String secondLastName,
+			@RequestParam(name = "age", required = false, defaultValue = "15") int age) {
+
+		UserModel usr = new UserModel(name, lastName, secondLastName, age);
 		userService.save(usr);
-		
+
 		return "redirect:/user/all";
 	}
-	
+
 	@PostMapping(path = "/newUser3")
-	public String createNew3( UserModel usr ) {
-		
-			
+	public String createNew3(UserModel usr) {
+
 		userService.save(usr);
 		log.info("Se guardo  exitosamente el usuario : " + usr.toString());
-		
+
 		return "redirect:/user/all";
 	}
-	
+
 	@PostMapping(path = "/newUser4")
-	public String createNew4(@Validated UserModel usr ) {	
-			
+	public String createNew4(@Validated UserModel usr) {
+
 		userService.save(usr);
 		log.info("Se guardo  exitosamente el usuario : " + usr.toString());
-		
+
 		return "redirect:/user/all";
 	}
-	
-	@GetMapping(path="/newUserFormThyme")
-	public ModelAndView getNewUserFormThyme() {		
-		ModelAndView mav =  new ModelAndView("usr/new_user_form_thyme");	
+
+	@GetMapping(path = "/newUserFormThyme")
+	public ModelAndView getNewUserFormThyme() {
+		ModelAndView mav = new ModelAndView("usr/new_user_form_thyme");
 		mav.addObject("user", new UserModel());
 		return mav;
 	}
-	
+
 	@PostMapping(path = "/newUser5")
-	public String createNew5( @ModelAttribute(name="user")  UserModel usr ) {	
-			
+	public String createNew5(@ModelAttribute(name = "user") UserModel usr) {
+
 		userService.save(usr);
 		log.info("Se guardo  exitosamente el usuario : " + usr.toString());
-		
+
 		return "redirect:/user/all";
 	}
-	
-	@GetMapping(path="/editForm/{id}")
-	public ModelAndView updateUser( @PathVariable("id") String id ) {
-		
-		UserModel user = this.userService.findById(id);				
-		ModelAndView mav =  new ModelAndView("usr/edit_user_form_thyme");
-		mav.addObject("user" , user);
-		
+
+	@GetMapping(path = "/editForm/{id}")
+	public ModelAndView updateUser(@PathVariable("id") String id) {
+
+		UserModel user = this.userService.findById(id);
+		ModelAndView mav = new ModelAndView("usr/edit_user_form_thyme");
+		mav.addObject("user", user);
+
 		return mav;
 	}
-	
+
 	@PostMapping(path = "/updateUser")
-	public String updateUser( @ModelAttribute(name="user")  UserModel usr ) {	
-			
+	public String updateUser(@ModelAttribute(name = "user") UserModel usr) {
+
 		userService.update(usr);
 		log.info("Se edito exitosamente el usuario : " + usr.toString());
-		
+
 		return "redirect:/user/all";
 	}
-	
-	@GetMapping(path="/delete/{id}")
-	public String delete( @PathVariable("id") String id ) {		
-		UserModel user = this.userService.findById(id);	
+
+	@GetMapping(path = "/delete/{id}")
+	public String delete(@PathVariable("id") String id) {
+		UserModel user = this.userService.findById(id);
 		userService.delete(user);
-		
+
 		return "redirect:/user/all";
 	}
-	
-	
-	@GetMapping(path="/find/{name}")
-	public String findByName( @PathVariable("name") String name ) {		
-		
-		UserModel user = this.userService.findByName(name);	
+
+	@GetMapping(path = "/find/{name}")
+	public String findByName(@PathVariable("name") String name) {
+
+		UserModel user = this.userService.findByName(name);
 		log.info("RESULTADO EXACTO: " + user);
-		
-		
-		UserModel user2 = this.userService.findByNameContains(name);	
-		log.info("RESULTADO POR LIKE"+ user2) ;
-		
-		
-		
+
+		UserModel user2 = this.userService.findByNameContains(name);
+		log.info("RESULTADO POR LIKE" + user2);
+
 		return "redirect:/user/all";
 	}
-	
 
 }
